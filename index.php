@@ -1,4 +1,10 @@
-<?php echo "hello";
+<?php
+
+
+if (!empty($_POST["submitButton"])) {
+  echo $_POST["username"];
+  echo $_POST["comment"];
+}
 
 ?>
 
@@ -28,16 +34,16 @@
         </div>
       </article>
     </section>
-    <div class="formWrapper">
+    <form class="formWrapper" method="POST">
       <div>
-        <input type="submit" value="send">
+        <input type="submit" value="send" name="submitButton">
         <label for="">Name: </label>
         <input type="text" name="username">
       </div>
       <div>
-        <textarea class="commentTextArea"></textarea>
+        <textarea class="commentTextArea" name="comment"></textarea>
       </div>
-    </div>
+    </form>
   </div>
 
 </body>
