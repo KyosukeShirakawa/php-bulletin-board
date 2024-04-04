@@ -1,10 +1,11 @@
 <?php
 
+date_default_timezone_set("Asia/Tokyo");
 
 $comment_array = array();
+$error_messages = array();
 
 //DB instantiation
-
 try {
   $pdo = new PDO('mysql:host=localhost;dbname=bulletin-board', "root", "kyosuke0527");
 } catch (PDOException $e) {
@@ -13,19 +14,37 @@ try {
 
 
 
-
 //Handle submitted data
-
 if (!empty($_POST["submitButton"])) {
 
-  $postDate = date("Y-m-d H:i:s");
 
-  $stmt = $pdo->prepare("INSERT INTO `data-table` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate);");
-  $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
-  $stmt->bindParam(':comment', $_POST['comment'], PDO::PARAM_STR);
-  $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
+  //Check name input
+  if (empty($_POST["username"])) {
+    echo "input your name";
+    $error_messages["username"] = "input your name";
+  }
+  //Check comment input
+  if (empty($_POST["comment"])) {
+    echo "Comment something";
+    $error_messages["comment"] = "Comment something";
+  }
 
-  $stmt->execute();
+
+  if (empty($error_messages)) {
+
+    $postDate = date("Y-m-d H:i:s");
+
+    try {
+      $stmt = $pdo->prepare("INSERT INTO `data-table` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate);");
+      $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
+      $stmt->bindParam(':comment', $_POST['comment'], PDO::PARAM_STR);
+      $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
+
+      $stmt->execute();
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+    }
+  }
 }
 
 
