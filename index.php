@@ -6,6 +6,10 @@ if (!empty($_POST["submitButton"])) {
   echo $_POST["comment"];
 }
 
+//DB instantiation
+
+$pdo = new PDO('mysql:host=localhost;dbname=bulletin-board', "root", "kyosuke0527");
+
 ?>
 
 
