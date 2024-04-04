@@ -3,12 +3,6 @@
 
 $comment_array = array();
 
-
-if (!empty($_POST["submitButton"])) {
-  echo $_POST["username"];
-  echo $_POST["comment"];
-}
-
 //DB instantiation
 
 try {
@@ -16,6 +10,27 @@ try {
 } catch (PDOException $e) {
   echo $e->getMessage();
 }
+
+
+
+
+//Handle submitted data
+
+if (!empty($_POST["submitButton"])) {
+
+  $postDate = date("Y-m-d H:i:s");
+
+  $stmt = $pdo->prepare("INSERT INTO `data-table` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate);");
+  $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
+  $stmt->bindParam(':comment', $_POST['comment'], PDO::PARAM_STR);
+  $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
+
+  $stmt->execute();
+}
+
+
+
+
 
 //Get data from DB
 $sql = "SELECT * FROM `data-table`";
