@@ -1,6 +1,9 @@
 <?php
 
 
+$comment_array = array();
+
+
 if (!empty($_POST["submitButton"])) {
   echo $_POST["username"];
   echo $_POST["comment"];
@@ -8,7 +11,18 @@ if (!empty($_POST["submitButton"])) {
 
 //DB instantiation
 
-$pdo = new PDO('mysql:host=localhost;dbname=bulletin-board', "root", "kyosuke0527");
+try {
+  $pdo = new PDO('mysql:host=localhost;dbname=bulletin-board', "root", "kyosuke0527");
+} catch (PDOException $e) {
+  echo $e->getMessage();
+}
+
+//Get data from DB
+$sql = "SELECT * FROM `data-table`";
+$comment_array = $pdo->query($sql);
+
+//Close DB connection
+$pdo = null;
 
 ?>
 
@@ -28,15 +42,24 @@ $pdo = new PDO('mysql:host=localhost;dbname=bulletin-board', "root", "kyosuke052
   <hr>
   <div class="boardWrapper">
     <section>
-      <article>
-        <div class="wrapper">
-          <div class="nameArea">
-            <span>Name:</span>
-            <p class="username">Kyo</p>
-            <time>:2024/4/4</time>
+      <?php foreach ($comment_array as $comment) : ?>
+        <article>
+          <div class="wrapper">
+            <div class="nameArea">
+              <span>Name:</span>
+              <p class="username">
+                <?php echo $comment["username"]; ?>
+              </p>
+              <time>
+                <?php echo $comment["postDate"]; ?>
+              </time>
+            </div>
+            <p class="comment">
+              <?php echo $comment["comment"]; ?>
+            </p>
           </div>
-        </div>
-      </article>
+        </article>
+      <?php endforeach; ?>
     </section>
     <form class="formWrapper" method="POST">
       <div>
