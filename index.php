@@ -14,6 +14,31 @@
 </head>
 
 <body>
+  <h1 class="title">PHP Bulletin Board</h1>
+  <hr>
+  <div class="boardWrapper">
+    <section>
+      <article>
+        <div class="wrapper">
+          <div class="nameArea">
+            <span>Name:</span>
+            <p class="username">Kyo</p>
+            <time>:2024/4/4</time>
+          </div>
+        </div>
+      </article>
+    </section>
+    <div class="formWrapper">
+      <div>
+        <input type="submit" value="send">
+        <label for="">Name: </label>
+        <input type="text" name="username">
+      </div>
+      <div>
+        <textarea class="commentTextArea"></textarea>
+      </div>
+    </div>
+  </div>
 
 </body>
 
